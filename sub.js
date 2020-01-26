@@ -2,7 +2,7 @@
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://mqtt.cgmu.io:1883');
 var myArgs = process.argv.slice(2)
-var topic = "#"//"worldcongress2017/pilot_resologi"// + myArgs[0]
+var topic = "worldcongress2017/pilot_resologi/" + myArgs[0]
 
 client.on('message', (topic, message) => {
     message = message.toString()
