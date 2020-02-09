@@ -7,6 +7,7 @@ var rd = readline.createInterface({
 });
 var dataList = [];
 
+
 rd.on('line', function(line) {
     var array = line.split(';');
     var jsonMessage = array[2];
@@ -16,6 +17,8 @@ rd.on('line', function(line) {
        json = JSON.parse(stringBuf);
        dataList.push(new Data(json.Format, json.Desc, json.CreateUtc, json.ExpiryUtc, json.Unit, json.Status,
         json.Value));
+        calculersumSquares()
+      
     } 
     catch (e) {
       console.error(stringBuf);
@@ -25,6 +28,8 @@ rd.on('line', function(line) {
 rd.on('close', function(line) {
   calculerMoyenne();
 });
+
+
 function calculerMoyenne()
 {
   var somme=0;
@@ -39,6 +44,29 @@ function calculerMoyenne()
   console.log("La moyenne de nombre de vécicule = " + moyenne);
   return moyenne;
 }
+
+
+function calculersumSquares()
+{
+  var somme=0;
+  var nbData = dataList.length;
+  for(i=0;i<dataList.length;i++)
+  {
+    if (dataList[i].desc == "Vehicule count") {
+      somme+=dataList[i].value;
+
+      somme+=dataList[i].value;
+      moyennei = somme/i;
+      sumSquares = (dataList[i].value  - moyennei)*(dataList[i].value - moyennei);
+
+    }
+  }
+
+  console.log("sumSquares = " + sumSquares);
+  return sumSquares;
+}
+
+
 
 class Data {
     constructor(format, desc, createdUTC, ExpiryUtc, unit, status, value) {
