@@ -1,3 +1,15 @@
+///***** Count Aggregator */
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+// we create 'users' collection in newdb database
+var url = "mongodb://localhost:27017/aggr2";
+ 
+// create a client to mongodb
+var MongoClient = require('mongodb').MongoClient;
+
+
 var fs = require('fs'),
     readline = require('readline');
 
@@ -18,8 +30,7 @@ rd.on('line', function(line) {
       
        dataList.push(new Data(json.Format, json.Desc, json.CreateUtc, json.ExpiryUtc, json.Unit, json.Status,
         json.Value));
-        calculersumSquares()
-       console.log(json);
+       //calculerSomme()
       
     } 
     catch (e) {
@@ -28,37 +39,68 @@ rd.on('line', function(line) {
 });
 
 rd.on('close', function(line) {
-  // do something
+  calculerSomme();
 });
 
 
-function calculersumSquares()
+function calculerSomme()
 {
   var somme=0;
-  var nbData = dataList.length;
-  for(i=0;i<dataList.length;i++)
+  var dateDebut = "2019-05-31T03:06:06";
+  var dateFin = "2019-05-31T02:37:30";
+  var timestamp
+  for(j=0;j<dataList.length;j++)
   {
-    if (dataList[i].desc == "Vehicule count") {
-      somme+=dataList[i].value;
+    if(dataList[j].CreateUtc == dateDebut){ timestamp = j}
+  
+  }
 
-      somme+=dataList[i].value;
-      moyennei = somme/i;
-      sumSquares = (dataList[i].value  - moyennei)*(dataList[i].value - moyennei);
+  for(i=timestamp;i<dataList.length;i++)
+  {
+    //console.log("dataList[i].CreateUtc " + dataList[i].CreateUtc);
 
+    if ((dataList[i].desc == "Vehicule count") /*&& (dataList[i].CreateUtc == dateDebut)*/) {
+      //console.log("dataList[i].CreateUtc " + dataList[i].CreateUtc);
+        somme+=dataList[i].value;
+        //console.log("hello" + i);
+        if(dataList[i].ExpiryUtc == "dateFin"){
+          console.log("break");
+          break;
+        }
+      
     }
   }
 
-  console.log("sumSquares = " + sumSquares);
-  return sumSquares;
+  console.log("La somme de nombre de vécicule = " + somme);
+  console.log("Date debut " + dateDebut);
+  console.log("Date fin " + dateFin);
+
+  // make client connect to mongo service
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  // db pointing to newdb
+  console.log("Switched to "+db.databaseName+" database");
+
+  // document to be inserted
+  var doc = {aggrSomme: somme, debut: dateDebut, fin : dateFin };
+  
+  // insert document to 'users' collection using insertOne
+  db.collection("somme").insertOne(doc, function(err, res) {
+      if (err) throw err;
+      console.log("Document inserted");
+      // close the connection to db when you are done with it
+      db.close();
+  });
+});
+
+  return somme;
 }
 
-
-
 class Data {
-    constructor(format, desc, createdUTC, ExpiryUtc, unit, status, value) {
+    constructor(format, desc, CreateUtc, ExpiryUtc, unit, status, value) {
         this.format = format;
         this.desc = desc;
-        this.createdUTC = createdUTC;
+        this.CreateUtc = CreateUtc;
         this.ExpiryUtc = ExpiryUtc;
         this.unit = unit;
         this.status = status;

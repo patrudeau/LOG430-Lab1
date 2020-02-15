@@ -84,7 +84,7 @@ MongoClient.connect(url, function(err, db) {
   var doc = {aggrMoyenne: moyenne, debut: dateDebut, fin : dateFin };
   
   // insert document to 'users' collection using insertOne
-  db.collection("users").insertOne(doc, function(err, res) {
+  db.collection("moyenne").insertOne(doc, function(err, res) {
       if (err) throw err;
       console.log("Document inserted");
       // close the connection to db when you are done with it
