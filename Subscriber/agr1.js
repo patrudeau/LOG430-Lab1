@@ -1,4 +1,15 @@
 ///***** Average Aggregator */
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+// we create 'users' collection in newdb database
+var url = "mongodb://localhost:27017/aggr1";
+ 
+// create a client to mongodb
+var MongoClient = require('mongodb').MongoClient;
+
+
+
 var fs = require('fs'),
     readline = require('readline');
 
@@ -7,6 +18,9 @@ var rd = readline.createInterface({
     console: false,
 });
 var dataList = [];
+var moyenne = 0;
+var dateDebut = "2019-05-31T03:06:06";
+var dateFin = "2019-05-31T02:37:30";
 
 
 rd.on('line', function(line) {
@@ -36,8 +50,6 @@ function calculerMoyenne()
 {
   var somme=0;
   var nbData = dataList.length;
-  var dateDebut = "2019-05-31T03:06:06";
-  var dateFin = "2019-05-31T02:37:30";
   var timestamp
   for(j=0;j<dataList.length;j++)
   {
@@ -60,8 +72,31 @@ function calculerMoyenne()
   console.log("La moyenne de nombre de vécicule = " + moyenne);
   console.log("Date debut " + dateDebut);
   console.log("Date fin " + dateFin);
+
+
+  // make client connect to mongo service
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  // db pointing to newdb
+  console.log("Switched to "+db.databaseName+" database");
+
+  // document to be inserted
+  var doc = {aggrMoyenne: moyenne, debut: dateDebut, fin : dateFin };
+  
+  // insert document to 'users' collection using insertOne
+  db.collection("users").insertOne(doc, function(err, res) {
+      if (err) throw err;
+      console.log("Document inserted");
+      // close the connection to db when you are done with it
+      db.close();
+  });
+});
+
   return moyenne;
+  
 }
+
+
 
 
 class Data {
@@ -75,3 +110,9 @@ class Data {
         this.value = value;
     }
 }
+
+
+
+
+ 
+
