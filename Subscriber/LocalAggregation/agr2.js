@@ -1,15 +1,5 @@
 ///***** Count Aggregator */
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-// we create 'users' collection in newdb database
-var url = "mongodb://localhost:27017/aggr2";
- 
-// create a client to mongodb
-var MongoClient = require('mongodb').MongoClient;
-
-
 var fs = require('fs'),
     readline = require('readline');
 
@@ -74,24 +64,6 @@ function calculerSomme()
   console.log("La somme de nombre de vécicule = " + somme);
   console.log("Date debut " + dateDebut);
   console.log("Date fin " + dateFin);
-
-  // make client connect to mongo service
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  // db pointing to newdb
-  console.log("Switched to "+db.databaseName+" database");
-
-  // document to be inserted
-  var doc = {aggrSomme: somme, debut: dateDebut, fin : dateFin };
-  
-  // insert document to 'users' collection using insertOne
-  db.collection("somme").insertOne(doc, function(err, res) {
-      if (err) throw err;
-      console.log("Document inserted");
-      // close the connection to db when you are done with it
-      db.close();
-  });
-});
 
   return somme;
 }
