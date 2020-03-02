@@ -13,6 +13,9 @@ Vous verez ensuite dans chacun des 3 terminaux les messages publiés sur le brok
 
 ///////////////////// Update pour Iteration 3 apres Dicussion avec Bilal:///////////////////////////////////////
 
+
+CAUTION: apres discussion avec Bilal ce matin, il s'avere que nous devons utilisé la redandance passive, cad avoir un deuxiemme aggregateur qui prends la releve en cas de crash, il faut qu'on discute lundi prochain comment on va l'implementer et qui ferait quoi
+
 - Crash; Faur mpntrer que notre aggregateur est capable de recuperer son activity apres un Crash: un exemple de crash est de forcer une division par 0 dans le fichier Agr.js de ce fait on peut utiliser un bloc:
 
 try { 
