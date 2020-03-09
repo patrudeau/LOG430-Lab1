@@ -9,7 +9,6 @@ var rd = readline.createInterface({
 });
 var dataList = [];
 
-
 rd.on('line', function(line) {
     var array = line.split(';');
     var jsonMessage = array[2];
@@ -17,12 +16,9 @@ rd.on('line', function(line) {
     var json;
     try {
        json = JSON.parse(stringBuf);
-      
        dataList.push(new Data(json.Format, json.Desc, json.CreateUtc, json.ExpiryUtc, json.Unit, json.Status,
         json.Value));
-        calculersumSquares()
-       //console.log(json);
-      
+        calculersumSquares();    
     } 
     catch (e) {
       console.error(stringBuf);
@@ -32,7 +28,6 @@ rd.on('line', function(line) {
 rd.on('close', function(line) {
   // do something
 });
-
 
 function calculersumSquares()
 {
@@ -51,8 +46,6 @@ function calculersumSquares()
   console.log("sumSquares = " + sumSquares);
   return sumSquares;
 }
-
-
 
 class Data {
     constructor(format, desc, createdUTC, ExpiryUtc, unit, status, value) {

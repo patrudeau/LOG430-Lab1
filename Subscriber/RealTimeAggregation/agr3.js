@@ -15,8 +15,6 @@ var url = "mongodb://localhost:27017/aggr-realTime";
 // create a client to mongodb
 var MongoClient = require('mongodb').MongoClient;
 
-
-
 client.on('message', (topic, message) => {
     message = message.toString()
     var stringBuf = message && message.toString('utf-8')
@@ -40,13 +38,9 @@ client.on('connect', ()=>{
     
 })
 
-
 client.on('close', function(line) {
   console.log("Closing Connection")
-
-  
 });
-
 
 function calculersumSquares()
 {
@@ -60,10 +54,8 @@ function calculersumSquares()
       sumSquares = (dataList[i].value  - moyennei)*(dataList[i].value - moyennei);
       timeCreateUtc = dataList[i].CreateUtc;
       timeExpiryUtc = dataList[i].ExpiryUtc;
-
     }
   }
-
   console.log("sumSquares = " + sumSquares);
   console.log("timeCreateUtc = " + timeCreateUtc);
   console.log("timeExpiryUtc = " + timeExpiryUtc);
@@ -81,7 +73,6 @@ class Data {
       this.value = value;
   }
 }
-
 
 setTimeout(dBInsert, 40000, 'timer');
 
@@ -105,5 +96,3 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 }
-
-

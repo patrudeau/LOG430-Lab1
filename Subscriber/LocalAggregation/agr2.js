@@ -9,7 +9,6 @@ var rd = readline.createInterface({
 });
 var dataList = [];
 
-
 rd.on('line', function(line) {
     var array = line.split(';');
     var jsonMessage = array[2];
@@ -31,7 +30,6 @@ rd.on('line', function(line) {
 rd.on('close', function(line) {
   calculerSomme();
 });
-
 
 function calculerSomme()
 {
