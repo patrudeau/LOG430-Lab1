@@ -2,7 +2,7 @@
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://mqtt.cgmu.io:1883');
 var myArgs = process.argv.slice(2)
-var topic = "worldcongress2017/pilot_resologi/" + myArgs[0]
+var topic = "worldcongress2017/pilot_resologi/odtf1/ca/qc/mtl/mobil/#"
 var dataList = [];
 var moyenne = 0;
 var somme = 0;

@@ -67,8 +67,6 @@ function calculerMoyenne()
 }
 
 
-
-
 class Data {
     constructor(format, desc, CreateUtc, ExpiryUtc, unit, status, value) {
         this.format = format;

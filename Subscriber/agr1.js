@@ -9,14 +9,10 @@ var timeList = [];
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-//delay
+ /*//delay///////////////
 var delay = true;
 exports.delay = delay;
-
-
-
-
-
+///////////////////// */
 
 
 // export it
@@ -40,12 +36,14 @@ client.on('message', (topic, message) => {
        dataList.push(new Data(json.Format, json.Desc, json.CreateUtc, json.ExpiryUtc, json.Unit, json.Status,
         json.Value));
 
-        //crash
-        //calculerMoyenne();
+        ///crash//////////////
+        calculerMoyenne();
+        ////////////// 
 
 
-      //delay
+       /* //delay////////////
        setTimeout(calculerMoyenne, 20000, 'timer');
+       /////////////////////// */
       
      
 
@@ -111,26 +109,15 @@ class Data {
 }
 
 
-setTimeout(dBInsert, 40000, 'timer');
+setTimeout(dBInsert, 20000, 'timer');
 function dBInsert() {
-  // make client connect to mongo service
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  // db pointing to newdb
-  console.log("Switched to "+db.databaseName+" database");
+ 
 
-  // document to be inserted
-  var doc = {aggrMoyenne: moyenne, debut: timeCreateUtc, fin : timeExpiryUtc };
-  
-  // insert document to 'users' collection using insertOne
-  db.collection("moyenne").insertOne(doc, function(err, res) {
-      if (err) throw err;
-      console.log("Document inserted");
-      // close the connection to db when you are done with it
-      db.close();
-      //client.close();
-  });
-});
+      //////force crash//////
+      client.close();
+      //////////////// 
+
+
 }
 
 
