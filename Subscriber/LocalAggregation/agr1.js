@@ -1,6 +1,5 @@
 ///***** Average Aggregator */
 
-//efr
 var fs = require('fs'),
     readline = require('readline');
 
@@ -12,7 +11,6 @@ var dataList = [];
 var moyenne = 0;
 var dateDebut = "2019-05-31T03:06:06";
 var dateFin = "2019-05-31T02:37:30";
-
 
 rd.on('line', function(line) {
     var array = line.split(';');
@@ -35,7 +33,6 @@ rd.on('line', function(line) {
 rd.on('close', function(line) {
   calculerMoyenne();
 });
-
 
 function calculerMoyenne()
 {
@@ -67,9 +64,6 @@ function calculerMoyenne()
   
 }
 
-
-
-
 class Data {
     constructor(format, desc, CreateUtc, ExpiryUtc, unit, status, value) {
         this.format = format;
@@ -81,9 +75,3 @@ class Data {
         this.value = value;
     }
 }
-
-
-
-
- 
-

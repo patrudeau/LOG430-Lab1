@@ -17,8 +17,6 @@ var url = "mongodb://localhost:27017/aggr-realTime";
 // create a client to mongodb
 var MongoClient = require('mongodb').MongoClient;
 
-
-
 client.on('message', (topic, message) => {
     message = message.toString()
     var stringBuf = message && message.toString('utf-8')
@@ -42,17 +40,12 @@ client.on('connect', ()=>{
     
 })
 
-
 client.on('close', function(line) {
   console.log("Closing Connection")
-
-  
 });
-
 
 function calculerMoyenne()
 {
-  
   var nbData = dataList.length;
   for(i=0;i<dataList.length;i++)
   {
@@ -62,18 +55,12 @@ function calculerMoyenne()
       timeExpiryUtc = dataList[i].ExpiryUtc;
      // timeCreateUtc.push(dataList[i].CreateUtc)
       //timeExpiryUtc.push(dataList[i].ExpiryUtc)
-     
-     
     }
   }
   moyenne = somme/nbData;
   console.log("La somme de nombre de vécicule = " + somme);
   console.log("timeCreateUtc = " + timeCreateUtc);
   console.log("timeExpiryUtc = " + timeExpiryUtc);
-
-    
-    
-
   return moyenne;
 }
 
@@ -88,7 +75,6 @@ class Data {
       this.value = value;
   }
 }
-
 
 setTimeout(dBInsert, 40000, 'timer');
 function dBInsert() {
@@ -111,5 +97,3 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 }
-
-
