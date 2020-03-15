@@ -9,10 +9,10 @@ var timeList = [];
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
- /*//delay///////////////
+ //delay///////////////
 var delay = true;
 exports.delay = delay;
-///////////////////// */
+///////////////////// 
 
 
 // export it
@@ -37,14 +37,13 @@ client.on('message', (topic, message) => {
         json.Value));
 
         ///crash//////////////
-        calculerMoyenne();
+        //calculerMoyenne();
         ////////////// 
 
 
-       /* //delay////////////
+        //delay////////////
        setTimeout(calculerMoyenne, 20000, 'timer');
-       /////////////////////// */
-      
+       ///////////////////////       
      
 
 
@@ -109,16 +108,14 @@ class Data {
 }
 
 
-setTimeout(dBInsert, 20000, 'timer');
-function dBInsert() {
- 
+/*setTimeout(forceCrash, 20000, 'timer');
+function forceCrash() {
 
       //////force crash//////
       client.close();
-      //////////////// 
-
-
-}
+      var fake = 5/0;
+      ////////////////
+}*/
 
 
 

@@ -1,10 +1,10 @@
 var nodemon1 = require('nodemon');
 var nodemon2 = require('nodemon');
 
- /*//delay//////////////
+ //delay//////////////
 var myAgr = require('./agr1');
 var delay = myAgr.delay;
-/////////////// */
+/////////////// 
 
 var colors = require('colors');
 colors.enable();
@@ -27,12 +27,12 @@ nodemon1({ script: './agr1.js' }).on('start', function () {
 
   })
 
- /* //delay//////////////
+  //delay//////////////
 if (delay == true) {
     setTimeout(manageDelay, 10000, 'timer');
 
 }
-/////////////////// */
+/////////////////// 
 
 
 
@@ -47,13 +47,13 @@ function startNewAgr() {
 }
 
 
- /* //delay////////////////
+ ///delay////////////////
 function manageDelay(){
     console.log(colors.red('Agregator 1 delayed for some reason!!!!!!'));
     console.log(colors.green('switching to agregator 2 and starting...'));
     setTimeout(startNewAgr, 1000, 'timer');
 }
-//////////////////////  */
+//////////////////////  
 
 
 
