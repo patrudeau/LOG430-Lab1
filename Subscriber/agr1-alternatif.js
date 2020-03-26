@@ -6,9 +6,9 @@
  *           Pier-Alexandre Trudeau
  *           Benjamin Fontaine
  *
- * @Description: Cette Classe constitue le deuxieme aggréateur qui se charge du calcul de la somme du nombre de véhicule.
- * cette classe aggrége des données en temps reel ou bien a partir dun fichier local, en plus elle enregistre les données 
- * aggrégées dans une BD locale pour gérer la disponibilité.
+ * @Description: Cette Classe constitue l'agrégateur alternatif a lancer en cas de crash ou latence. Il se charge du calcul de la moyenne de nombre de véhicule.
+ * cette classe aggrege des données en temps reel ou bien a partir dun fichier local, en plus elle enregistre les données 
+ * aggrégées dans une BD locale pour géerer la disponibilité. elle gére aussi le crash le crash et la latance.
  *
  *               Chargé de Lab: Bilal Alchalabi
  *               Date Création: 2020-02-02 Date dern. modif. 2020-03-26
@@ -22,8 +22,6 @@ var myArgs = process.argv.slice(2)
 var topic = "worldcongress2017/pilot_resologi/odtf1/ca/qc/mtl/mobil/#"
 var dataList = [];
 var moyenne = 0;
-var somme = 0;
-
 var timeList = [];
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -34,6 +32,8 @@ var url = "mongodb://localhost:27017/aggr-realTime";
 // create a client to mongodb
 var MongoClient = require('mongodb').MongoClient;
 
+
+
 client.on('message', (topic, message) => {
     message = message.toString()
     var stringBuf = message && message.toString('utf-8')
@@ -43,7 +43,7 @@ client.on('message', (topic, message) => {
        //console.log(json);
        dataList.push(new Data(json.Format, json.Desc, json.CreateUtc, json.ExpiryUtc, json.Unit, json.Status,
         json.Value));
-        calculerSomme();
+       calculerMoyenne();
     } 
     catch (e) {
       console.error(stringBuf);
@@ -57,6 +57,7 @@ client.on('connect', ()=>{
     
 })
 
+
 client.on('close', function(line) {
   console.log("Closing Connection")
 });
@@ -64,8 +65,7 @@ client.on('close', function(line) {
 ______________________________________________________________________________________________
 
 
-
-/////////////////// local  aggregation pour tester la Testabilité: lire a partir d'un fichier  ///////////////
+/////////////////// local  aggregation pour tester la Testabilité: lire apartir dÈun fichier  ///////////////
 ////////////////////////  Enlever le '/*' au besoin ////////////////////////////////////////////////////////
 /*var fs = require('fs'),
     readline = require('readline');
@@ -101,9 +101,9 @@ rd.on('close', function(line) {
 _________________________________________________________________________________________________________
 
 
-
-function calculerSomme()
+function calculerMoyenne()
 {
+  var somme=0;
   var nbData = dataList.length;
   for(i=0;i<dataList.length;i++)
   {
@@ -111,12 +111,11 @@ function calculerSomme()
       somme+=dataList[i].value;
       timeCreateUtc = dataList[i].CreateUtc;
       timeExpiryUtc = dataList[i].ExpiryUtc;
-     // timeCreateUtc.push(dataList[i].CreateUtc)
-      //timeExpiryUtc.push(dataList[i].ExpiryUtc)
+
     }
   }
   moyenne = somme/nbData;
-  console.log("La somme de nombre de vécicule = " + somme);
+  console.log("La moyenne de nombre de vécicule = " + moyenne);
   console.log("timeCreateUtc = " + timeCreateUtc);
   console.log("timeExpiryUtc = " + timeExpiryUtc);
   return moyenne;
@@ -134,8 +133,7 @@ class Data {
   }
 }
 
-
-/////****** */ Cette fonction sert a insérer dans la base de données locale pour montrer la Disponibilité *********////
+/////****** */ Cette fonction sert a inserer dans la base de données locale pour montrer la Disponibilité *********////
 setTimeout(dBInsert, 40000, 'timer');
 function dBInsert() {
   // make client connect to mongo service
@@ -157,4 +155,8 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 }
-//////////////////////// fin de la fonction d'insetion dans la base de données ///////////////////////////
+/////////////////// fin de la fonction d'insetion dans la base de données ////////////////////
+
+
+
+

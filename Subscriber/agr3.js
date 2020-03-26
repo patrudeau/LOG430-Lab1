@@ -1,4 +1,20 @@
-// MQTT Subcriber
+/***********************************************************************************************************************
+ * Cours: Log430 Session: H2020 Groupe:01 Projet: Laboratoire #1,#2,#3,#4 Étudiant(e)s:
+ *
+ * @author : Thamer Aissaoui
+ *           Nesrine Cherfaoui
+ *           Pier-Alexandre Trudeau
+ *           Benjamin Fontaine
+ *
+ * @Description: Cette Classe constitue le troisiéme aggrégateur qui se charge du calcul de la sum of Squares du nombre de véhicule.
+ * cette classe aggrége des données en temps reel ou bien a partir dun fichier local, en plus elle enregistre les données 
+ * aggrégées dans une BD locale pour gérer la disponibilité.
+ *
+ *               Chargé de Lab: Bilal Alchalabi
+ *               Date Création: 2020-02-02 Date dern. modif. 2020-03-26
+ **********************************************************************************************************************/
+
+/////////////////// MQTT Subcriber :  real time aggregation ///////////////
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://mqtt.cgmu.io:1883');
 var myArgs = process.argv.slice(2)
@@ -41,6 +57,44 @@ client.on('connect', ()=>{
 client.on('close', function(line) {
   console.log("Closing Connection")
 });
+//////////////////////////// fin de realtime aggregation //////////////////////////
+______________________________________________________________________________________________
+
+
+
+/////////////////// local  aggregation pour tester la Testabilité: lire a partir d'un fichier  ///////////////
+////////////////////////  Enlever le '/*' au besoin ////////////////////////////////////////////////////////
+/*var fs = require('fs'),
+    readline = require('readline');
+
+var rd = readline.createInterface({
+    input: fs.createReadStream('detector.txt'),
+    console: false,
+});
+var dataList = [];
+
+rd.on('line', function(line) {
+    var array = line.split(';');
+    var jsonMessage = array[2];
+    var stringBuf = jsonMessage && jsonMessage.toString('utf-8')
+    var json;
+    try {
+       json = JSON.parse(stringBuf);
+       dataList.push(new Data(json.Format, json.Desc, json.CreateUtc, json.ExpiryUtc, json.Unit, json.Status,
+        json.Value));
+        calculersumSquares();    
+    } 
+    catch (e) {
+      console.error(stringBuf);
+    }
+});
+
+rd.on('close', function(line) {
+  // do something
+});*/
+////////////////////////////////////// fin de local aggregation /////////////////////////////////////////
+_________________________________________________________________________________________________________
+
 
 function calculersumSquares()
 {
@@ -74,8 +128,8 @@ class Data {
   }
 }
 
+/////****** */ Cette fonction sert a insérer dans la base de données locale pour montrer la Disponibilité *********////
 setTimeout(dBInsert, 40000, 'timer');
-
 function dBInsert() {
   // make client connect to mongo service
 MongoClient.connect(url, function(err, db) {
@@ -96,3 +150,4 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 }
+//////////////////////// fin de la fonction d'insetion dans la base de données ///////////////////////////
