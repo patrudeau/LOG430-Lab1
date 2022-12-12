@@ -17,7 +17,7 @@
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "detect-node": "^2.0.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "forever-monitor": "^2.0.0",
     "mongoose": "^5.9.1",
     "mosca": "^2.8.3",
